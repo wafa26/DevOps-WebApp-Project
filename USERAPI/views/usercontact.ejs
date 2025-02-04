@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Node.js Server Side Validation</title>
+    <link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        <h1 class="text-warning text-center"><b>Node.js </b></h1>
+        <div class="col-md-6 mt-3 mb-3">
+            <div class="card">
+                <div class="card-header">Contact Form</div>
+                <div class="card-body">
+
+                    <form method="post" action="/create">
+                        <div class="mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" name="name" class="form-control" />
+                            <% if(errors && errors.name) { %>
+                            <span class="text-danger"><%= errors.name.msg %></span>
+                            <% } %>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" class="form-control" />
+                            <% if (errors && errors.email) { %>
+                            <span class="text-danger"><%= errors.email.msg %></span>
+                            <% } %>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject">Phone</label>
+                            <input type="tel" name="subject" class="form-control" />
+                            <% if (errors && errors.subject) { %>
+                            <span class="text-danger"><%= errors.subject.msg %></span>
+                            <% } %>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message">Description</label>
+                            <textarea name="message" class="form-control"></textarea>
+                            <% if(errors && errors.message) { %>
+                            <span class="text-danger"><%= errors.message.msg %></span>
+                            <% } %>
+                        </div>
+                        <button type="submit" class="btn btn-success">Create</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
