@@ -112,7 +112,7 @@ Run the application inside the VM.
 
     ci-with-containers.yml
     
-  userwebapi/
+userwebapi/
   
   src/                 # Application source code
   
@@ -128,6 +128,6 @@ iac/
   
   playbooks/
     
-    setup.yml          # Ansible playbook
+    setup.yml          
 
 README.md              # Project documentation
