@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: userwebapi
+  namespace: userwebapi
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - userwebapi-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"   # this is to send to frontend
+    route:
+    - destination:
+        host: frontend.userwebapi.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: "/api"  # this is to send to backend
+    route:
+    - destination:
+        host: backend.userwebapi.svc.cluster.local
+        port:
+          number: 5000

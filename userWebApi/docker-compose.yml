@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: userwebapi_backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:  # ✅ Ensure Redis is properly defined
+        condition: service_healthy
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - userwebapi_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      retries: 5
+      timeout: 15s
+      start_period: 40s
+    restart: always
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: userwebapi_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - userwebapi_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      retries: 3
+      timeout: 10s
+      start_period: 20s
+    restart: always
+
+  mongo:
+    image: mongo
+    container_name: userwebapi_mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - userwebapi_network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 30s
+      retries: 5
+      timeout: 10s
+      start_period: 20s
+
+  redis:
+    image: redis
+    container_name: userwebapi_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - userwebapi_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      retries: 10
+      timeout: 10s
+      start_period: 40s
+
+volumes:
+  mongo_data:
+  redis_data:
+
+networks:
+  userwebapi_network:
+    driver: bridge
