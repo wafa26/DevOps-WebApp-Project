@@ -82,8 +82,6 @@ Vagrantfile
 The Vagrantfile is located in the iac/ directory. It configures a VM with:
 centos/7
 
-Private network IP: 192.168.33.10.
-
 ###Ansible Playbook
 The Ansible playbook (iac/playbooks/setup.yml) installs:
 Node.js.
