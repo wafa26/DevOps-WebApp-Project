@@ -78,6 +78,7 @@ Deploys the application (if tests pass).
 The pipeline is triggered on every push to the main branch.
 ### Vagrant and Ansible Setup
 Vagrant is used to create a virtual machine, and Ansible is used to provision it.
+
 Vagrantfile
 The Vagrantfile is located in the iac/ directory. It configures a VM with:
 centos/7
@@ -104,15 +105,27 @@ Run the application inside the VM.
 
 ## Project Structure
 .github/
+
   workflows/
+  
     ci-cd.yml          # GitHub Actions workflow
+    
 userwebapi/
+  
   src/                 # Application source code
+  
   test/                # Test files
+  
   package.json         # Node.js dependencies
+  
   Dockerfile           # Docker configuration
+
 iac/
+  
   Vagrantfile          # Vagrant configuration
+  
   playbooks/
+    
     setup.yml          # Ansible playbook
+
 README.md              # Project documentation
