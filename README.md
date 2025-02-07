@@ -54,7 +54,7 @@ Docker: Install Docker.
 GitHub Account: Required for GitHub Actions.
 
 ## Local Setup
-1. Clone the repository:git clone https://github.com/your-username/DevOps-WebApp-Project.git
+1. Clone the repository:git clone https://github.com/wafa26/DevOps-WebApp-Project.git
 cd DevOps-WebApp-Project/userapi
 2. Install dependencies:
 npm install
