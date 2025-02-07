@@ -108,7 +108,7 @@ Run the application inside the VM.
 
   workflows/
   
-    ci-cd.yml          # GitHub Actions workflow
+    ci-cd.yml
     
 userwebapi/
   
