@@ -1,7 +1,7 @@
 # DevOps-WebApp-Project
 A DevOps project showcasing the deployment and management of a web application built with Node.js, Redis, GitHub Actions, Vagrant, and Ansible. It includes a CI/CD pipeline, infrastructure provisioning, and automated testing.
 
-##Table of Contents
+## Table of Contents
 1	Project Overview
 2	 Features
 3	Technologies Used
@@ -82,12 +82,12 @@ Vagrantfile
 The Vagrantfile is located in the iac/ directory. It configures a VM with:
 centos/7
 
-###Ansible Playbook
+### Ansible Playbook
 The Ansible playbook (iac/playbooks/setup.yml) installs:
 Node.js.
 Redis.
 
-##Application dependencies.
+## Application dependencies.
 
 Steps to Run
 Navigate to the iac/ directory:
