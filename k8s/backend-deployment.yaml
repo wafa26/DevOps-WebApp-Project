@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend 
+  namespace: userwebapi
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: wafa2616/userwebapi-backend:v2
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env: 
+          - name: MONGO_URI
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: MONGO_URI
+          - name: REDIS_URL
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: REDIS_URL
+          - name: PORT 
+            valueFrom:
+              configMapKeyRef:
+                name: app-config
+                key: PORT 
+   

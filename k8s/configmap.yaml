@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: userwebapi
+data:
+  PORT: "5000"
+  NODE_ENV: "production"
+  FRONTEND_URL: "http://frontend:80"
+  BACKEND_URL: "http://backend:5000"
+  MONGO_URI: "mongodb://mongo:27017/userwebapi"
+  REDIS_URL: "redis://redis-service:6379"
+  REACT_APP_API_URL: "http://backend:5000"

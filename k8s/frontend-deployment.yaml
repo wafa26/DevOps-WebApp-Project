@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend 
+  namespace: userwebapi
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: wafa2616/userwebapi-frontend:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+        env:
+          - name: REACT_APP_API_URL
+            valueFrom:
+              configMapRef:
+                name: app-config
+                key: REACT_APP_API_URL
+                  
