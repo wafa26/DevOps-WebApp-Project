@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Updated `docker-compose.yml` to use health checks for services.
 - Modified frontend API URL to use environment variables with .env file.
 - changed css in the frontend.
+- Updated userWebApi with Prometheus metrics in app.js and installed with npm install prom-client.
 
 
 ### Fixed
