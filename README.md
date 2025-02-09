@@ -3,13 +3,21 @@ A DevOps project showcasing the deployment and management of a web application b
 
 ## Table of Contents
 1	Project Overview
+
 2	 Features
+
 3	Technologies Used
+
 4	Setup Instructions
+
   Prerequisites
+  
   Local Setup
+  
   GitHub Actions CI/CD
+  
   Vagrant and Ansible Setup
+  
 5	Project Structure
 
 
