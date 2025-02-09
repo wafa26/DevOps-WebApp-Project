@@ -145,7 +145,7 @@ The CI/CD pipeline is configured using GitHub Actions. It automatically runs tes
 
 ### Workflow File
 
-The workflow file is located at `.github/workflows/ci-cd.yml`. It performs the following steps:
+The workflow file is located at `.github/workflows/ci.yml`. It performs the following steps:
 - Checks out the repository.
 - Sets up Node.js.
 - Installs dependencies.
