@@ -15,11 +15,10 @@ A DevOps project showcasing the deployment and management of a web application b
 
 
 ## Project Overview
-This project is a Employee API built with Node.js and Redis. It provides CRUD functionality for employees and includes:
-Automated testing (unit, integration tests).
-CI/CD pipeline using GitHub Actions.
-Infrastructure provisioning using Vagrant and Ansible.
-Containerization with Docker and orchestration with Kubernetes.
+This is a Node.js Express app (backend) and React app (frontend), using MongoDB as the database and Redis for caching. 
+The app allows users to perform CRUD operations (Create, Read, Update, Delete) for managing employees via a form. The application is fully containerized and runs inside Docker, Kubernetes, and Istio, with monitoring via Prometheus and Grafana.
+It includes automated testing (unit, integration tests) and health checks ,CI/CD pipeline using GitHub Actions and provisioning using Vagrant and Ansible.
+
 
 ## Features
 ### API:
@@ -36,37 +35,98 @@ Docker image creation and orchestration with Docker Compose and Kubernetes.
 
 
 ## Technologies Used
-Backend: Node.js, Express.js
-Database: Redis
-Testing: Jest
-CI/CD: GitHub Actions
-Infrastructure: Vagrant, Ansible
-Containerization: Docker, Docker Compose, Kubernetes
-Monitoring: Prometheus, Grafana
+- Node.js (Express) – Backend API
+
+- React.js – Frontend UI
+
+- MongoDB – Database for storing employee data
+
+- Redis – Caching layer
+
+- Docker & Docker Compose – Containerization
+
+- Kubernetes & Minikube – Orchestration
+
+- Istio – Service Mesh
+
+- Prometheus & Grafana – Monitoring
+
+- Swagger – API Documentation
+  
+- Vagrant – Virtual machine provisioning
+
+- Ansible – Configuration management
+
 
 ## Setup Instructions
-Prerequisites
-Node.js: Install Node.js (v20).
-Redis: Install Redis.
-Vagrant: Install Vagrant.
-Ansible: Install Ansible.
-Docker: Install Docker.
-GitHub Account: Required for GitHub Actions.
+- Ensure you have installed:
+
+- Docker
+
+- Docker Compose
+
+- Kubernetes (kubectl)
+
+- Minikube
+
+- Istio CLI (istioctl)
+
+- Node.js & NPM
+
+- Vagrant
+
+- Ansible
 
 ## Local Setup
-1. Clone the repository:git clone https://github.com/wafa26/DevOps-WebApp-Project.git
-cd DevOps-WebApp-Project/userapi
+1. Clone the repository: ```sh
+git clone https://github.com/wafa26/DevOps-WebApp-Project.git
+cd DevOps-WebApp-Project/userWebApi
+```
 2. Install dependencies:
-npm install
-3. Start the Redis server:
-redis-server
-4. Run the application:
-npm start
-5. Run tests:
-npm test
+``` npm install --save-dev nodemon jest supertest
+npm install express mongoose redis ejs swagger-jsdoc swagger-ui-express dotenv body-parser cors```
 
-## GitHub Actions CI/CD
+3.Setup Environment Variables
+
+Create a .env file in both frontend/ and backend/src/.
+
+Example .env:
+``` PORT=5000
+MONGO_URI=mongodb://mongo:27017/employeeDB
+REDIS_HOST=redis-service
+REDIS_PORT=6379 ```
+
+4. Build and Run Containers:
+
+` npm install --save-dev nodemon jest supertest `
+
+4.Access the App & API Documentation :
+
+- Frontend: http://localhost:3000
+
+- Backend API: http://localhost:5000/api/employees
+
+- Swagger UI Documentation: http://localhost:5000/docs
+ 
+5. Run tests:
+
+` docker exec -it userwebapi_backend npm test `
+
+6. Verify MongoDB and Redis Are Running
+
+- Check MongoDB:
+```  docker exec -it userwebapi_mongo mongosh
+use employeeDB
+db.employees.find().pretty() ```
+
+- Check Redis:
+
+``` docker exec -it userwebapi_redis redis-cli
+keys * ```
+
+## GitHub Actions CI/CD :
 The CI/CD pipeline is configured using GitHub Actions. It automatically runs tests and deploys the application.
+
 ### Workflow File
 The workflow file is located at .github/workflows/ci-cd.yml. It performs the following steps:
 Checks out the repository.
@@ -102,6 +162,87 @@ Verify the setup:
 Check if Node.js and Redis are installed.
 Run the application inside the VM.
 
+## Deploying to Kubernetes (Minikube) :
+### 1. Start Minikube :
+` minikube start `
+
+### 2. Deploy Services to Kubernetes :
+`kubectl apply -f k8s/`
+
+### 3. Start Minikube Tunnel in a Separate Terminal :
+`minikube tunnel`
+
+### 4. Verify Pods & Services :
+``` kubectl get pods -n userwebapi
+kubectl get svc -n userwebapi ```
+
+ ***Expose Ingress Nginx in Minikube :
+Since Minikube Ingress does not use minikube ip, you must use 127.0.0.1.
+Edit /etc/hosts (Windows: C:\Windows\System32\drivers\etc\hosts) and add:
+` 127.0.0.1 userwebapi.local `***
+
+### 5. Monitoring with Prometheus & Grafana :
+- Enable Minikube Metrics Server :
+`minikube addons enable metrics-server`
+
+- Configure Host File for Prometheus & Grafana :
+``` 127.0.0.1 prometheus.local
+    127.0.0.1 grafana.local ```
+
+- Access Monitoring Dashboards :
+``` Prometheus: http://prometheus.local
+    Grafana: http://grafana.local ```
+
+- Import Grafana Dashboard :
+
+1️⃣ Go to Grafana → Click Import Dashboard → Use Dashboard ID 3119
+2️⃣ Select Prometheus as the data source
+3️⃣ Click Import
+
+*** Check Grafana Dashboard
+1️⃣ Click ☰ → Dashboards → Manage
+2️⃣ Open your dashboard
+3️⃣ If no data appears, click "Edit Panel"
+4️⃣ Under Queries, check:
+Data Source = Prometheus
+http_requests_total => run query => data apears***
+
+## 6. Deploying with Istio (Already Configured in k8s/istio/) :
+- Verify Istio Setup :
+```kubectl get pods -n istio-system
+kubectl get svc istio-ingressgateway -n istio-system```
+***If EXTERNAL-IP is 127.0.0.1, start Minikube Tunnel***
+
+- Restart Deployments to Enable Istio :
+```kubectl rollout restart deployment backend -n userwebapi
+  kubectl rollout restart deployment frontend -n userwebapi```
+
+- Access the App via Istio Gateway :
+`http://127.0.0.1/`
+
+***Docker Hub Images : ***
+- Backend Image: https://hub.docker.com/repository/docker/wafa2616/userwebapi-backend/general
+(v1 and v2 , v2 with Istio metrics enabled and app.js modified to allow Istio metrics)
+
+- Frontend Image: https://hub.docker.com/repository/docker/wafa2616/userwebapi-frontend/general
+
+## Summary of Key Commands
+
+- Run Locally :
+`docker-compose up --build -d`
+
+- Deploy to Kubernetes :
+`kubectl apply -f k8s/`
+
+- Deploy with Vagrant & Ansible :
+``` vagrant up
+ansible-playbook -i inventory setup.yml ```
+
+- Use Istio :
+`kubectl apply -f k8s/istio/`
+
+## Conclusion :
+Node.js & React web app is now running inside Docker, Kubernetes, Istio, Vagrant, and Ansible, with monitoring via Prometheus and Grafana.
 
 ## Project Structure
 .github/
