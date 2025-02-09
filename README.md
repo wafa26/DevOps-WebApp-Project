@@ -83,7 +83,7 @@ git clone https://github.com/wafa26/DevOps-WebApp-Project.git
 cd DevOps-WebApp-Project/userWebApi
 ```
 2. Install dependencies:
-``` npm install --save-dev nodemon jest supertest
+```sh npm install --save-dev nodemon jest supertest
 npm install express mongoose redis ejs swagger-jsdoc swagger-ui-express dotenv body-parser cors```
 
 3.Setup Environment Variables
@@ -91,7 +91,7 @@ npm install express mongoose redis ejs swagger-jsdoc swagger-ui-express dotenv b
 Create a .env file in both frontend/ and backend/src/.
 
 Example .env:
-``` PORT=5000
+```sh PORT=5000
 MONGO_URI=mongodb://mongo:27017/employeeDB
 REDIS_HOST=redis-service
 REDIS_PORT=6379 ```
@@ -115,13 +115,13 @@ REDIS_PORT=6379 ```
 6. Verify MongoDB and Redis Are Running
 
 - Check MongoDB:
-```  docker exec -it userwebapi_mongo mongosh
+```sh  docker exec -it userwebapi_mongo mongosh
 use employeeDB
 db.employees.find().pretty() ```
 
 - Check Redis:
 
-``` docker exec -it userwebapi_redis redis-cli
+```sh docker exec -it userwebapi_redis redis-cli
 keys * ```
 
 ## GitHub Actions CI/CD :
@@ -173,7 +173,7 @@ Run the application inside the VM.
 `minikube tunnel`
 
 ### 4. Verify Pods & Services :
-``` kubectl get pods -n userwebapi
+```sh kubectl get pods -n userwebapi
 kubectl get svc -n userwebapi ```
 
  ***Expose Ingress Nginx in Minikube :
@@ -186,11 +186,11 @@ Edit /etc/hosts (Windows: C:\Windows\System32\drivers\etc\hosts) and add:
 `minikube addons enable metrics-server`
 
 - Configure Host File for Prometheus & Grafana :
-``` 127.0.0.1 prometheus.local
+```sh 127.0.0.1 prometheus.local
     127.0.0.1 grafana.local ```
 
 - Access Monitoring Dashboards :
-``` Prometheus: http://prometheus.local
+```sh Prometheus: http://prometheus.local
     Grafana: http://grafana.local ```
 
 - Import Grafana Dashboard :
@@ -209,13 +209,16 @@ http_requests_total => run query => data apears***
 
 ## 6. Deploying with Istio (Already Configured in k8s/istio/) :
 - Verify Istio Setup :
-```kubectl get pods -n istio-system
-kubectl get svc istio-ingressgateway -n istio-system```
+```sh
+kubectl get pods -n istio-system
+kubectl get svc istio-ingressgateway -n istio-system ```
+
 ***If EXTERNAL-IP is 127.0.0.1, start Minikube Tunnel***
 
 - Restart Deployments to Enable Istio :
-```kubectl rollout restart deployment backend -n userwebapi
-  kubectl rollout restart deployment frontend -n userwebapi```
+```sh
+  kubectl rollout restart deployment backend -n userwebapi
+  kubectl rollout restart deployment frontend -n userwebapi ```
 
 - Access the App via Istio Gateway :
 `http://127.0.0.1/`
@@ -235,7 +238,7 @@ kubectl get svc istio-ingressgateway -n istio-system```
 `kubectl apply -f k8s/`
 
 - Deploy with Vagrant & Ansible :
-``` vagrant up
+```sh vagrant up
 ansible-playbook -i inventory setup.yml ```
 
 - Use Istio :
