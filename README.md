@@ -10,13 +10,13 @@ A DevOps project showcasing the deployment and management of a web application b
 
 4	Setup Instructions
 
-  Prerequisites
+    Prerequisites
   
-  Local Setup
+    Local Setup
   
-  GitHub Actions CI/CD
+    GitHub Actions CI/CD
   
-  Vagrant and Ansible Setup
+    Vagrant and Ansible Setup
   
 5	Project Structure
 
